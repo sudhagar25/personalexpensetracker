@@ -28,8 +28,10 @@ app.use(methodOverride(function (req, res) {
     }
 }));
 
+const path = require('path'); // Ensure path is required
+
 // Static folder
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Session middleware
 // Using MemoryStore for simplicity with Firebase
@@ -48,6 +50,7 @@ app.use(function (req, res, next) {
 // EJS
 const expressLayouts = require('express-ejs-layouts'); // Add this
 app.use(expressLayouts); // Add this
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // Routes (Placeholders for now)

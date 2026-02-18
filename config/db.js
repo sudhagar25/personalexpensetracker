@@ -9,7 +9,12 @@ let serviceAccount;
 
 if (process.env.FIREBASE_SERVICE_ACCOUNT) {
     // If environment variable exists (Production/Vercel)
-    serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+    try {
+        serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+    } catch (e) {
+        console.error('FAILED TO PARSE FIREBASE_SERVICE_ACCOUNT. Check your Vercel Environment Variable.', e);
+        serviceAccount = null;
+    }
 } else {
     // Local development
     try {

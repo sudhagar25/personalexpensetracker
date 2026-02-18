@@ -21,10 +21,18 @@ if (process.env.FIREBASE_SERVICE_ACCOUNT) {
 }
 
 if (serviceAccount) {
-    admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount)
-    });
-    console.log('Firebase Connected');
+    if (admin.apps.length === 0) {
+        try {
+            admin.initializeApp({
+                credential: admin.credential.cert(serviceAccount)
+            });
+            console.log('Firebase Connected');
+        } catch (error) {
+            console.error('Firebase initialization error:', error);
+        }
+    }
+} else {
+    console.error('Service Account is missing. Check your environment variables.');
 }
 
 const db = admin.firestore();
